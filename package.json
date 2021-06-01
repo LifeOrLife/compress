@@ -1,0 +1,27 @@
+{
+    "name": "compress",
+    "version": "1.0.0",
+    "description": "compress image",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "vite",
+        "build": "vite build"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/LifeOrLife/compress.git"
+    },
+    "keywords": [],
+    "author": "btea",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/LifeOrLife/compress/issues"
+    },
+    "homepage": "https://github.com/LifeOrLife/compress#readme",
+    "devDependencies": {
+        "eslint": "^7.27.0",
+        "prettier": "^2.3.0",
+        "vite": "^2.3.4"
+    }
+}
