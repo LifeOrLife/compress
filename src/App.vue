@@ -40,11 +40,11 @@ export default defineComponent({
 			const reader = new FileReader();
 			reader.onload = function () {
 				if (beforeImg && beforeImg.value) {
-					const el = (beforeImg.value as unknown) as HTMLImageElement;
+					const el = beforeImg.value as unknown as HTMLImageElement;
 					// el.src = reader.result as string;
 					beforeSrc.value = reader.result as string;
 					el.onload = function () {
-						const box = (showBox.value as unknown) as HTMLDivElement;
+						const box = showBox.value as unknown as HTMLDivElement;
 						const style = box.getBoundingClientRect();
 						w = style.width;
 						left = style.left;
@@ -62,15 +62,11 @@ export default defineComponent({
 		const moveLine = ref(null);
 		const showBox = ref(null);
 		let canMove = false;
-		let x: number, left: number, w: number;
+		let left: number, w: number;
 		const startMove = () => {
 			canMove = true;
 		};
-		const upperStart = (e: MouseEvent) => {
-			if (canMove) {
-				x = e.clientX;
-			}
-		};
+
 		const endMove = () => {
 			canMove = false;
 		};
@@ -78,29 +74,29 @@ export default defineComponent({
 			if (canMove) {
 				const _x = e.clientX - left;
 				const v = (_x / w) * 100 + '%';
-				const _el = (showBox.value as unknown) as HTMLDivElement;
+				const _el = showBox.value as unknown as HTMLDivElement;
 				_el.style.setProperty('--left', v);
 			}
 		};
 
 		const handleLine = (e: Event) => {};
 		onMounted(() => {
-			const el = (moveLine.value as unknown) as HTMLDivElement;
-			const box = (showBox.value as unknown) as HTMLDivElement;
+			const el = moveLine.value as unknown as HTMLDivElement;
+			const box = showBox.value as unknown as HTMLDivElement;
 			if (el) {
 				el.addEventListener('mousedown', startMove);
-				box.addEventListener('mousedown', upperStart);
+				// box.addEventListener('mousedown', upperStart);
 				box.addEventListener('mousemove', isMove);
 				document.addEventListener('mouseup', endMove);
 			}
 		});
 
 		onBeforeUnmount(() => {
-			const el = (moveLine.value as unknown) as HTMLDivElement;
-			const box = (showBox.value as unknown) as HTMLDivElement;
+			const el = moveLine.value as unknown as HTMLDivElement;
+			const box = showBox.value as unknown as HTMLDivElement;
 			if (el) {
 				el.removeEventListener('mousedown', startMove);
-				box.removeEventListener('mousedown', upperStart);
+				// box.removeEventListener('mousedown', upperStart);
 				box.removeEventListener('mousemove', isMove);
 				document.removeEventListener('mouseup', endMove);
 			}
