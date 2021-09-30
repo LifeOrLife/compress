@@ -11,7 +11,7 @@
 
 ```js
 server: {
-	host: true
+    host: true
 },
 ```
 
@@ -19,4 +19,4 @@ server: {
 
 查看 `vite` 仓库代码之后，发现已经有人修复了这个 bug，待更新~~
 
-[fix#5165](https://github.com/vitejs/vite/pull/5156/commits/639855e97c9ad11935f47f2ff4aa01795ba506c7)
+[fix#5165](https://github.com/vitejs/vite/pull/5156)
