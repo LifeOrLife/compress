@@ -3,7 +3,12 @@
 	<div class="con">
 		<div class="img-show" style="--left: 50%" ref="showBox">
 			<div class="before">
-				<img :src="beforeSrc" alt="" ref="beforeImg" />
+				<img
+					:src="beforeSrc"
+					alt=""
+					ref="beforeImg"
+					draggable="false"
+				/>
 				<div class="before-text" v-show="beforeSrc">
 					压缩前{{ beforeSize }}
 				</div>
@@ -13,7 +18,7 @@
 				<div class="after-text" v-show="afterSrc">
 					压缩后{{ afterSize }}
 				</div>
-				<img :src="afterSrc" alt="" />
+				<img :src="afterSrc" alt="" draggable="false" />
 			</div>
 		</div>
 	</div>
@@ -119,6 +124,7 @@ export default defineComponent({
 <style lang="less" scoped>
 .con {
 	text-align: center;
+	user-select: none;
 }
 .img-show {
 	position: relative;
