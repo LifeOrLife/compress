@@ -23,7 +23,7 @@
 		"@typescript-eslint/eslint-plugin": "^4.26.0",
 		"@typescript-eslint/parser": "^4.26.0",
 		"@vitejs/plugin-vue": "^1.2.3",
-		"@vue/compiler-sfc": "^3.0.11",
+		"@vue/compiler-sfc": "^3.2.19",
 		"eslint": "^7.27.0",
 		"eslint-plugin-vue": "^7.10.0",
 		"less": "^4.1.1",
@@ -32,6 +32,8 @@
 		"vite": "^2.6.2"
 	},
 	"dependencies": {
-		"vue": "^3.0.11"
+		"element-plus": "^1.1.0-beta.19",
+		"unplugin-element-plus": "^0.1.0",
+		"vue": "^3.2.19"
 	}
 }
