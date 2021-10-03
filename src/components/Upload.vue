@@ -92,7 +92,7 @@ export default defineComponent({
 <style lang="less" scoped>
 .upload-con {
 	max-width: 800px;
-	height: 500px;
+	height: 200px;
 	margin: 20px auto;
 	border-radius: 5px;
 	border: 2px solid #6cf;

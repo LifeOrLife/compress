@@ -21,16 +21,30 @@
 				<img :src="afterSrc" alt="" draggable="false" />
 			</div>
 		</div>
+		<div class="params">
+			<div class="encoder">
+				<span class="des">图片压缩质量</span>
+				<el-input-number
+					v-model="encoder"
+					:min="0.1"
+					:max="1"
+					:step="0.01"
+					@change="changeEncoder"
+				></el-input-number>
+			</div>
+		</div>
 	</div>
 </template>
 <script lang="ts">
 import { defineComponent, onBeforeUnmount, onMounted, ref } from 'vue';
 import Upload from './components/Upload.vue';
 import compress, { getSize } from './utils/compress';
+import { ElInputNumber } from 'element-plus';
 
 export default defineComponent({
 	components: {
-		Upload
+		Upload,
+		ElInputNumber
 	},
 	setup() {
 		// 处理上传的图片
@@ -107,6 +121,17 @@ export default defineComponent({
 			}
 		});
 
+		// 图片质量
+		const encoder = ref(0.92);
+		const changeEncoder = (val: number) => {
+			const el = beforeImg.value as unknown as HTMLImageElement;
+			if (!el) {
+				return;
+			}
+			const info = compress(el, val);
+			afterSrc.value = info.after.str;
+			afterSize.value = getSize(info.after.size);
+		};
 		return {
 			getFile,
 			beforeImg,
@@ -116,7 +141,9 @@ export default defineComponent({
 			afterSize,
 			moveLine,
 			handleLine,
-			showBox
+			showBox,
+			encoder,
+			changeEncoder
 		};
 	}
 });
@@ -125,6 +152,12 @@ export default defineComponent({
 .con {
 	text-align: center;
 	user-select: none;
+	.params {
+		margin-top: 30px;
+		.encoder .des {
+			margin-right: 10px;
+		}
+	}
 }
 .img-show {
 	position: relative;
