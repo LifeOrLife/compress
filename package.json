@@ -23,7 +23,7 @@
 		"@typescript-eslint/eslint-plugin": "^4.26.0",
 		"@typescript-eslint/parser": "^4.26.0",
 		"@vitejs/plugin-vue": "^1.2.3",
-		"@vue/compiler-sfc": "^3.2.19",
+		"@vue/compiler-sfc": "3.2.26",
 		"eslint": "^7.27.0",
 		"eslint-plugin-vue": "^7.10.0",
 		"less": "^4.1.1",
