@@ -24,129 +24,103 @@
 		<div class="params">
 			<div class="encoder">
 				<span class="des">图片压缩质量</span>
-				<el-input-number
-					v-model="encoder"
-					:min="0.1"
-					:max="1"
-					:step="0.01"
-					@change="changeEncoder"
-				></el-input-number>
+				<num-btn v-model="encoder" @change="changeEncoder" :min="0" :max="1" :step="0.01"></num-btn>
 			</div>
 		</div>
 	</div>
 </template>
-<script lang="ts">
-import { defineComponent, onBeforeUnmount, onMounted, ref } from 'vue';
+<script setup lang="ts">
+import { onBeforeUnmount, onMounted, ref } from 'vue';
 import Upload from './components/Upload.vue';
+import NumBtn from './components/NumBtn.vue';
 import compress, { getSize } from './utils/compress';
-import { ElInputNumber } from 'element-plus';
 
-export default defineComponent({
-	components: {
-		Upload,
-		ElInputNumber
-	},
-	setup() {
-		// 处理上传的图片
-		const beforeSrc = ref('');
-		const beforeImg = ref(null);
-		const beforeSize = ref('');
-		// 处理压缩后的图片
-		const afterSrc = ref('');
-		const afterSize = ref('');
-		// 获取/处理上传的图片
-		const getFile = (file: File) => {
-			const reader = new FileReader();
-			reader.onload = function () {
-				if (beforeImg && beforeImg.value) {
-					const el = beforeImg.value as unknown as HTMLImageElement;
-					// el.src = reader.result as string;
-					beforeSrc.value = reader.result as string;
-					el.onload = function () {
-						const box = showBox.value as unknown as HTMLDivElement;
-						const style = box.getBoundingClientRect();
-						w = style.width;
-						left = style.left;
-						const info = compress(el);
-						beforeSize.value = getSize(info.before.size);
-						afterSrc.value = info.after.str;
-						afterSize.value = getSize(info.after.size);
-					};
-				}
+// 处理上传的图片
+const beforeSrc = ref('');
+const beforeImg = ref<HTMLImageElement>();
+const beforeSize = ref('');
+// 处理压缩后的图片
+const afterSrc = ref('');
+const afterSize = ref('');
+const showBox = ref<HTMLElement | null>(null);
+// 获取/处理上传的图片
+const getFile = (file: File) => {
+	const reader = new FileReader();
+	reader.onload = () => {
+		if (beforeImg && beforeImg.value) {
+			const el = beforeImg.value;
+			// el.src = reader.result as string;
+			beforeSrc.value = reader.result as string;
+			el.onload = () => {
+				const box = showBox.value!;
+				const style = box.getBoundingClientRect();
+				w = style.width;
+				left = style.left;
+				const info = compress(el);
+				beforeSize.value = getSize(info.before.size);
+				afterSrc.value = info.after.str;
+				afterSize.value = getSize(info.after.size);
 			};
-			reader.readAsDataURL(file);
-		};
+		}
+	};
+	reader.readAsDataURL(file);
+};
 
-		// 分界线处理
-		const moveLine = ref(null);
-		const showBox = ref(null);
-		let canMove = false;
-		let left: number, w: number;
-		const startMove = () => {
-			canMove = true;
-		};
+// 分界线处理
+const moveLine = ref<HTMLElement | null>(null);
+let canMove = false;
+let left: number, w: number;
+const startMove = () => {
+	canMove = true;
+};
 
-		const endMove = () => {
-			canMove = false;
-		};
-		const isMove = (e: MouseEvent) => {
-			if (canMove) {
-				const _x = e.clientX - left;
-				const v = (_x / w) * 100 + '%';
-				const _el = showBox.value as unknown as HTMLDivElement;
-				_el.style.setProperty('--left', v);
-			}
-		};
+const endMove = () => {
+	canMove = false;
+};
+const isMove = (e: MouseEvent) => {
+	if (canMove) {
+		const _x = e.clientX - left;
+		const v = (_x / w) * 100 + '%';
+		const _el = showBox.value!;
+		_el.style.setProperty('--left', v);
+	}
+};
 
-		const handleLine = (e: Event) => {};
-		onMounted(() => {
-			const el = moveLine.value as unknown as HTMLDivElement;
-			const box = showBox.value as unknown as HTMLDivElement;
-			if (el) {
-				el.addEventListener('mousedown', startMove);
-				// box.addEventListener('mousedown', upperStart);
-				box.addEventListener('mousemove', isMove);
-				document.addEventListener('mouseup', endMove);
-			}
-		});
-
-		onBeforeUnmount(() => {
-			const el = moveLine.value as unknown as HTMLDivElement;
-			const box = showBox.value as unknown as HTMLDivElement;
-			if (el) {
-				el.removeEventListener('mousedown', startMove);
-				// box.removeEventListener('mousedown', upperStart);
-				box.removeEventListener('mousemove', isMove);
-				document.removeEventListener('mouseup', endMove);
-			}
-		});
-
-		// 图片质量
-		const encoder = ref(0.92);
-		const changeEncoder = (val: number) => {
-			const el = beforeImg.value as unknown as HTMLImageElement;
-			if (!el) {
-				return;
-			}
-			const info = compress(el, val);
-			afterSrc.value = info.after.str;
-			afterSize.value = getSize(info.after.size);
-		};
-		return {
-			getFile,
-			beforeImg,
-			beforeSrc,
-			beforeSize,
-			afterSrc,
-			afterSize,
-			moveLine,
-			handleLine,
-			showBox,
-			encoder,
-			changeEncoder
-		};
+const handleLine = (e: Event) => {};
+onMounted(() => {
+	const el = moveLine.value;
+	const box = showBox.value;
+	if (el) {
+		el.addEventListener('mousedown', startMove);
+		// box.addEventListener('mousedown', upperStart);
+		box!.addEventListener('mousemove', isMove);
+		document.addEventListener('mouseup', endMove);
 	}
 });
+
+onBeforeUnmount(() => {
+	const el = moveLine.value;
+	const box = showBox.value;
+	if (el) {
+		el.removeEventListener('mousedown', startMove);
+		// box.removeEventListener('mousedown', upperStart);
+		box!.removeEventListener('mousemove', isMove);
+		document.removeEventListener('mouseup', endMove);
+	}
+});
+
+// 图片质量
+const encoder = ref(0.92);
+const changeEncoder = (val: number) => {
+	const el = beforeImg.value as unknown as HTMLImageElement;
+	if (!el) {
+		return;
+	}
+	const info = compress(el, val);
+	afterSrc.value = info.after.str;
+	afterSize.value = getSize(info.after.size);
+};
+		
 </script>
 <style lang="less" scoped>
 .con {
