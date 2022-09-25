@@ -20,15 +20,15 @@
 	},
 	"homepage": "https://github.com/LifeOrLife/compress#readme",
 	"devDependencies": {
-		"@typescript-eslint/eslint-plugin": "^4.26.0",
-		"@typescript-eslint/parser": "^4.26.0",
+		"@typescript-eslint/eslint-plugin": "4.33.0",
+		"@typescript-eslint/parser": "4.33.0",
 		"@vitejs/plugin-vue": "1.10.2",
 		"@vue/compiler-sfc": "3.2.26",
 		"eslint": "7.32.0",
-		"eslint-plugin-vue": "^7.10.0",
+		"eslint-plugin-vue": "7.20.0",
 		"less": "4.1.2",
 		"prettier": "2.5.1",
-		"typescript": "^4.3.2",
+		"typescript": "4.8.3",
 		"vite": "2.7.9"
 	},
 	"dependencies": {
